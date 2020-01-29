@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Night and Day</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <style>
+
+    :root {
+      --charcoal: #444;
+    }
+
+    html {
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--charcoal);
+    }
+    html, body {
+      margin:0;
+      padding:0;
+    }
+
+    .container {
+      width:100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .window {
+      position: relative;
+      width: 17.5rem;
+      height: 22.5rem;
+      overflow: hidden;
+      border:0.5rem solid var(--charcoal);
+      background-color: var(--charcoal);
+      border-radius: 100rem 100rem 0 0;
+    }
+
+    .window__data {
+      position: absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      height: 62%;
+      padding: 1rem;
+      background-color:white;
+      border-top:0.5rem solid var(--charcoal);
+      box-sizing:border-box;
+      text-align: center;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .window__outside {
+      position:absolute;
+      border-radius: 100rem;
+      background: rgb(0,92,194);
+      background: linear-gradient(0deg, rgba(0,92,194,1) 30%, rgba(9,200,255,1) 100%);
+      width:150%;
+      left:-25%;
+      top:-15%;
+      height: 0;
+      padding-bottom:150%;
+      /* transform:rotate(10deg); */
+      /* transition: transform 2s linear; */
+    }
+    .window__outside::after,
+    .window__outside::before {
+      content:"";
+      position: absolute;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 100%;
+      left:calc(50% - 3rem);
+    }
+    .window__outside::after {
+      top:3.6rem;
+      background-color:#fbc604;
+    }
+    .window__outside::before {
+      bottom:3.6rem;
+      background-color:white;
+    }
+
+    .quote {
+      font-weight:bold;
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="window">
+      <div class="window__outside"></div>
+      <div class="window__data">
+        <h2>Inspirational Quote:</h2>
+        <p>A day without sunshine is like, you know, night.</p>
+        <p class="quote">Steve Martin.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const body = document.querySelector('body'),
+          turntable = document.querySelector('.window__outside');
+
+    body.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      e.deltaY > 0 ? rotate.right() : rotate.left();
+      turntable.style.transform = "rotate(" + rotate.value() + "deg)";
+    }, {passive:false}, false);
+
+    const rotate = (function() {
+        let distance = 0;
+        function rotateBy(val) {
+          distance += val;
+        }
+        return {
+          right : function() {
+            rotateBy(2);
+          },
+          left : function() {
+            rotateBy(-2);
+          },
+          value : function() {
+            return distance;
+          }
+        };
+      })();
+  </script>
+</body>
+</html>
